@@ -5,7 +5,9 @@ import com.jmg.treasurehunt.tools.DateFormatEnum;
 import com.jmg.treasurehunt.tools.TreasureHuntFileTools;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -14,14 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-/**
- * Writer of batch PlayTreasureHunterRunner
- * Write a file in folder set in "treasure_file.path.outbound" if not error new file name is oldFileName add tretement date else
- * Write a file in folder set in "treasure_file.path.error" if one error is found  new file name is ERROR oldFileName add tretement date
- *
- * @author GADEAUD Jean-MICHEL
- */
-@Component
+@SpringBootTest
+@SpringBatchTest
 public class PlayTreasureHunterWriterTest implements ItemWriter<EtatFileTreasureHunt> {
 
     private String outboundFile;

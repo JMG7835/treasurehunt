@@ -1,42 +1,42 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.reader;
 
-import org.springframework.batch.item.ItemReader;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Reader of batch PlayTreasureHunterRunner
- * Read a folder set in "treasure_file.path.inbound" and return a files with matche in regex
- *
- * @author  GADEAUD Jean-MICHEL
- */
-public class PlayTreasureHunterReaderTest implements ItemReader<File> {
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+@SpringBootTest
+@SpringBatchTest
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class PlayTreasureHunterReaderTest {
     @Value("${treasure_file.path.inbound}")
     private String inboundFile;
 
-    private final Iterator<File> fileIterator;
+    @Value("${treasure_file.regex}")
+    private String regexFile;
 
-    /**
-     * Constructs the reader with a target directory and a regex pattern
-     * to filter the files to be processed.
-     *
-     * @param directoryPath the path to the directory containing files
-     * @param regexFile     the regex pattern to match filenames
-     */
-    public PlayTreasureHunterReaderTest(@Value("${treasure_file.path.inbound}") String directoryPath, @Value("${treasure_file.regex}") String regexFile) {
-        File folder = new File(directoryPath);
-        File[] files = folder.listFiles((dir, name) -> name.matches(regexFile));
-        List<File> fileList = files != null ? Arrays.asList(files) : List.of();
-        this.fileIterator = fileList.iterator();
-    }
 
-    @Override
-    public File read() {
-        return fileIterator.hasNext() ? fileIterator.next() : null;
+    @Test
+    void readFileTest_OK() {
+        PlayTreasureHunterReader myReader = new PlayTreasureHunterReader(inboundFile+"/1",regexFile);
+
+        File file;
+        int count = 0;
+        while ((file = myReader.read()) != null) {
+            assertThat(file.getName()).matches(regexFile);
+            count++;
+        }
+
+        assertThat(count).isEqualTo(2);
     }
 
 }
