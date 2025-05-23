@@ -18,7 +18,7 @@ import java.util.List;
  * @author GADEAUD Jean-MICHEL
  */
 @Component
-public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFileTreasureHunt> {
+public class PlayTreasureHunterProcessorTest implements ItemProcessor<File, EtatFileTreasureHunt> {
 
     @Override
     public EtatFileTreasureHunt process(File file) {

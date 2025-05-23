@@ -14,7 +14,9 @@ import java.util.List;
  *
  * @author  GADEAUD Jean-MICHEL
  */
-public class PlayTreasureHunterReader implements ItemReader<File> {
+public class PlayTreasureHunterReaderTest implements ItemReader<File> {
+    @Value("${treasure_file.path.inbound}")
+    private String inboundFile;
 
     private final Iterator<File> fileIterator;
 
@@ -25,7 +27,7 @@ public class PlayTreasureHunterReader implements ItemReader<File> {
      * @param directoryPath the path to the directory containing files
      * @param regexFile     the regex pattern to match filenames
      */
-    public PlayTreasureHunterReader(@Value("${treasure_file.path.inbound}") String directoryPath,@Value("${treasure_file.regex}") String regexFile) {
+    public PlayTreasureHunterReaderTest(@Value("${treasure_file.path.inbound}") String directoryPath, @Value("${treasure_file.regex}") String regexFile) {
         File folder = new File(directoryPath);
         File[] files = folder.listFiles((dir, name) -> name.matches(regexFile));
         List<File> fileList = files != null ? Arrays.asList(files) : List.of();

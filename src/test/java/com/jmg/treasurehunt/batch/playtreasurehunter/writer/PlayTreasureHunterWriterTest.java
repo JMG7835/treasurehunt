@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * @author GADEAUD Jean-MICHEL
  */
 @Component
-public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt> {
+public class PlayTreasureHunterWriterTest implements ItemWriter<EtatFileTreasureHunt> {
 
     private String outboundFile;
     private String errorFile;
@@ -33,7 +33,7 @@ public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt
      * @param outboundFile the path of the output  error less file
      * @param outboundFile the path of the output error file
      */
-    public PlayTreasureHunterWriter(@Value("${treasure_file.path.outbound}") String outboundFile, @Value("${treasure_file.path.error}") String errorFile) {
+    public PlayTreasureHunterWriterTest(@Value("${treasure_file.path.outbound}") String outboundFile, @Value("${treasure_file.path.error}") String errorFile) {
         this.outboundFile = outboundFile;
         this.errorFile = errorFile;
     }
