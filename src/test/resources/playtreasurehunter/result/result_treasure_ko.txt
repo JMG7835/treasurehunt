@@ -1,0 +1,8 @@
+type line not found
+Line type C: field at index 1 is not a number (value: A)
+Line type M has an incorrect number of fields
+Line type M has an incorrect number of fields
+Line type M has an incorrect number of fields
+
+Line type T has an incorrect number of fields
+Line type A: field at index 5 is Invalid move point (value: F) and field at index 5 is Invalid move point (value: I)

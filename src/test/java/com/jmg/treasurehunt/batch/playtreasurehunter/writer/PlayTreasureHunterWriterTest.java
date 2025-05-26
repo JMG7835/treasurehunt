@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.writer;
 
-import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
+import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.Chunk;
@@ -49,7 +49,7 @@ public class PlayTreasureHunterWriterTest {
     @Test
     public void writTest_OK() {
         PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
-        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(true, "toto.txt", List.of("one line"));
+        EtatFileTreasureHuntModel etatFileTreasureHunt = new EtatFileTreasureHuntModel(true, "toto.txt", List.of("one line"));
         myWriter.write(Chunk.of(etatFileTreasureHunt));
         File[] filesList = new File(outboundPatch).listFiles();
         if (filesList == null) {
@@ -62,7 +62,7 @@ public class PlayTreasureHunterWriterTest {
     @Test
     public void writTest_ERROR() {
         PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
-        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(false, "toto.txt", List.of("one line"));
+        EtatFileTreasureHuntModel etatFileTreasureHunt = new EtatFileTreasureHuntModel(false, "toto.txt", List.of("one line"));
         myWriter.write(Chunk.of(etatFileTreasureHunt));
         File[] filesList = new File(errorPath).listFiles();
         if (filesList == null) {
@@ -75,7 +75,7 @@ public class PlayTreasureHunterWriterTest {
     @Test
     public void writTest_no_line() {
         PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
-        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(true, "toto.txt", List.of());
+        EtatFileTreasureHuntModel etatFileTreasureHunt = new EtatFileTreasureHuntModel(true, "toto.txt", List.of());
         myWriter.write(Chunk.of(etatFileTreasureHunt));
         File[] filesList = new File(outboundPatch).listFiles();
         if (filesList == null) {

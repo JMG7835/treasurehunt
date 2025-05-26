@@ -1,7 +1,7 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
-import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
+import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -52,18 +52,18 @@ public class PlayTreasureHunterProcessorTest {
         }
         doNothing().when(archiveListener).setLastFile(any());
 
-        EtatFileTreasureHunt result = processor.process(fileOk);
+        EtatFileTreasureHuntModel result = processor.process(fileOk);
 
         Assertions.assertNotNull(result);
         assertTrue(result.isOk());
-        assertThat(resultFileOk.size()).isEqualTo(result.getLines().size());
-        assertThat(result.getLines()).containsExactlyElementsOf(resultFileOk);
+        assertThat(resultFileOk.size()).isEqualTo(result.lines().size());
+        assertThat(result.lines()).containsExactlyElementsOf(resultFileOk);
     }
 
 
     @Test
     void processTest_KO() throws URISyntaxException, IOException {
-        File fileKO = new File(inboundFile + "treasure_ok.txt");
+        File fileKO = new File(inboundFile + "treasure_ko.txt");
         Path path = Paths.get(getClass()
                 .getClassLoader()
                 .getResource("playtreasurehunter/result/result_treasure_ko.txt")
@@ -74,12 +74,12 @@ public class PlayTreasureHunterProcessorTest {
         }
         doNothing().when(archiveListener).setLastFile(any());
 
-        EtatFileTreasureHunt result = processor.process(fileKO);
+        EtatFileTreasureHuntModel result = processor.process(fileKO);
 
         Assertions.assertNotNull(result);
         assertFalse(result.isOk());
-        assertThat(resultFileko.size()).isEqualTo(result.getLines().size());
-        assertThat(result.getLines()).containsExactlyElementsOf(resultFileko);
+        assertThat(resultFileko.size()).isEqualTo(result.lines().size());
+        assertThat(result.lines()).containsExactlyElementsOf(resultFileko);
     }
 
 }

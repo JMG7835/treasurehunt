@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.writer;
 
-import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
+import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.tools.DateFormatEnum;
 import com.jmg.treasurehunt.tools.TreasureHuntFileTools;
 import org.springframework.batch.item.Chunk;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * @author GADEAUD Jean-MICHEL
  */
 @Component
-public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt> {
+public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHuntModel> {
 
     private final String outboundPath;
     private final String errorPath;
@@ -40,15 +40,15 @@ public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt
     }
 
     @Override
-    public void write(Chunk<? extends EtatFileTreasureHunt> Chunk) {
+    public void write(Chunk<? extends EtatFileTreasureHuntModel> Chunk) {
 
         Chunk.forEach(etatFileTreasureHunt -> {
             String outputFilePath;
             File outputFile;
-            String oldName = etatFileTreasureHunt.getFileName();
+            String oldName = etatFileTreasureHunt.fileName();
             String[] nameAndExtention = oldName.split("\\.");
             String newNameFile = nameAndExtention[0] +
-                    TreasureHuntFileTools.UNDERSCORT +
+                    TreasureHuntFileTools.UNDERSCORE +
                     LocalDateTime.now().format(DateFormatEnum.FOR_FILE.getFormatter()) +
                     TreasureHuntFileTools.DOT + nameAndExtention[1];
             if (etatFileTreasureHunt.isOk()) {
@@ -57,7 +57,7 @@ public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt
                 outputFilePath = this.errorPath + "ERROR_" + newNameFile;
             }
             outputFile = new File(outputFilePath);
-            etatFileTreasureHunt.getLines().forEach(line -> {
+            etatFileTreasureHunt.lines().forEach(line -> {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true))) {
                     writer.write(line);
                     writer.newLine();

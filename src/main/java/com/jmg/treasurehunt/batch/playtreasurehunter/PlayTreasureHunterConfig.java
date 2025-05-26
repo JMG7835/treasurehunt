@@ -4,7 +4,7 @@ import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.batch.playtreasurehunter.processor.PlayTreasureHunterProcessor;
 import com.jmg.treasurehunt.batch.playtreasurehunter.reader.PlayTreasureHunterReader;
 import com.jmg.treasurehunt.batch.playtreasurehunter.writer.PlayTreasureHunterWriter;
-import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
+import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -65,10 +65,10 @@ public class PlayTreasureHunterConfig {
     @Bean
     public Step processing() {
         ItemReader<File> reader = new PlayTreasureHunterReader(inboundPatch, fileRegex);
-        ItemProcessor<File, EtatFileTreasureHunt> processor = new PlayTreasureHunterProcessor();
-        ItemWriter<EtatFileTreasureHunt> writer = new PlayTreasureHunterWriter(outboundPatch, errorPatch);
+        ItemProcessor<File, EtatFileTreasureHuntModel> processor = new PlayTreasureHunterProcessor();
+        ItemWriter<EtatFileTreasureHuntModel> writer = new PlayTreasureHunterWriter(outboundPatch, errorPatch);
         return new StepBuilder("processing", jobRepository)
-                .<File, EtatFileTreasureHunt>chunk(5, transactionManager)
+                .<File, EtatFileTreasureHuntModel>chunk(5, transactionManager)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
