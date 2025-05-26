@@ -1,7 +1,9 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
+import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -20,11 +22,16 @@ import java.util.List;
 @Component
 public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFileTreasureHunt> {
 
+    @Autowired
+    private ArchiveListener archiveListener;
+
+
     @Override
     public EtatFileTreasureHunt process(File file) {
         if (!file.canRead()) {
             throw new RuntimeException(MessageFormat.format("Can't read file : {0}", file.getName()));
         }
+        this.archiveListener.setLastFile(file);
 
         List<String> newLine = new ArrayList<>();
 

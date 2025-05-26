@@ -1,67 +1,87 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
-import com.jmg.treasurehunt.tools.DateFormatEnum;
-import com.jmg.treasurehunt.tools.TreasureHuntFileTools;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.Chunk;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
+import org.springframework.test.context.TestPropertySource;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @SpringBootTest
 @SpringBatchTest
-public class PlayTreasureHunterWriterTest implements ItemWriter<EtatFileTreasureHunt> {
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class PlayTreasureHunterWriterTest {
 
-    private String outboundFile;
-    private String errorFile;
+    @Value("${treasure_file.path.outbound}")
+    private String outboundPatch;
 
-    /**
-     * Constructs the writer with the path of the file to write to.
-     *
-     * @param outboundFile the path of the output  error less file
-     * @param outboundFile the path of the output error file
-     */
-    public PlayTreasureHunterWriterTest(@Value("${treasure_file.path.outbound}") String outboundFile, @Value("${treasure_file.path.error}") String errorFile) {
-        this.outboundFile = outboundFile;
-        this.errorFile = errorFile;
-    }
+    @Value("${treasure_file.path.error}")
+    private String errorPath;
 
-    @Override
-    public void write(Chunk<? extends EtatFileTreasureHunt> Chunk) {
-
-        Chunk.forEach(etatFileTreasureHunt -> {
-            String outputFilePath;
-            File outputFile;
-            String oldName = etatFileTreasureHunt.getFileName();
-            String[] nameAndExtention = oldName.split("\\.");
-            String newNameFile = nameAndExtention[0] +
-                    TreasureHuntFileTools.UNDERSCORT +
-                    LocalDateTime.now().format(DateFormatEnum.ISO_DATE_TIME.getFormatter()) +
-                    TreasureHuntFileTools.DOT + nameAndExtention[1];
-            if (etatFileTreasureHunt.isOk()) {
-                outputFilePath = this.outboundFile + newNameFile;
-            } else {
-                outputFilePath = this.errorFile + "ERROR" + newNameFile;
-            }
-            outputFile = new File(outputFilePath);
-            etatFileTreasureHunt.getLines().forEach(line -> {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true))) {
-                    writer.write(line);
-                    writer.newLine();
-                } catch (IOException e) {
-                    throw new RuntimeException("Error writing to file: " + outputFile.getAbsolutePath(), e);
+    @BeforeEach
+    void deleteRepo() {
+        File[] filesList = new File(outboundPatch).listFiles();
+        if (filesList != null) {
+            for (File file : filesList) {
+                if (file.isFile()) {
+                    file.delete();
                 }
-            });
-
-        });
+            }
+        }
+        filesList = new File(errorPath).listFiles();
+        if (filesList != null) {
+            for (File file : filesList) {
+                if (file.isFile()) {
+                    file.delete();
+                }
+            }
+        }
     }
 
+    @Test
+    public void writTest_OK() {
+        PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
+        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(true, "toto.txt", List.of("one line"));
+        myWriter.write(Chunk.of(etatFileTreasureHunt));
+        File[] filesList = new File(outboundPatch).listFiles();
+        if (filesList == null) {
+            fail("error folder null");
+        } else {
+            assertThat(filesList.length).isEqualTo(1);
+        }
+    }
+
+    @Test
+    public void writTest_ERROR() {
+        PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
+        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(false, "toto.txt", List.of("one line"));
+        myWriter.write(Chunk.of(etatFileTreasureHunt));
+        File[] filesList = new File(errorPath).listFiles();
+        if (filesList == null) {
+            fail("error folder null");
+        } else {
+            assertThat(filesList.length).isEqualTo(1);
+        }
+    }
+
+    @Test
+    public void writTest_no_line() {
+        PlayTreasureHunterWriter myWriter = new PlayTreasureHunterWriter(outboundPatch, errorPath);
+        EtatFileTreasureHunt etatFileTreasureHunt = new EtatFileTreasureHunt(true, "toto.txt", List.of());
+        myWriter.write(Chunk.of(etatFileTreasureHunt));
+        File[] filesList = new File(outboundPatch).listFiles();
+        if (filesList == null) {
+            fail("error folder null");
+        } else {
+            assertThat(filesList.length).isEqualTo(0);
+        }
+    }
 }

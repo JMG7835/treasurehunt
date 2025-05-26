@@ -24,18 +24,19 @@ import java.time.LocalDateTime;
 @Component
 public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt> {
 
-    private String outboundFile;
-    private String errorFile;
+    private final String outboundPath;
+    private final String errorPath;
 
     /**
      * Constructs the writer with the path of the file to write to.
      *
-     * @param outboundFile the path of the output  error less file
-     * @param outboundFile the path of the output error file
+     * @param outboundPath the path of the output  error less file
+     * @param errorPath the path of the output error file
      */
-    public PlayTreasureHunterWriter(@Value("${treasure_file.path.outbound}") String outboundFile, @Value("${treasure_file.path.error}") String errorFile) {
-        this.outboundFile = outboundFile;
-        this.errorFile = errorFile;
+    public PlayTreasureHunterWriter(@Value("${treasure_file.path.outbound}") String outboundPath,
+                                    @Value("${treasure_file.path.error}") String errorPath) {
+        this.outboundPath = outboundPath;
+        this.errorPath = errorPath;
     }
 
     @Override
@@ -48,12 +49,12 @@ public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt
             String[] nameAndExtention = oldName.split("\\.");
             String newNameFile = nameAndExtention[0] +
                     TreasureHuntFileTools.UNDERSCORT +
-                    LocalDateTime.now().format(DateFormatEnum.ISO_DATE_TIME.getFormatter()) +
+                    LocalDateTime.now().format(DateFormatEnum.FOR_FILE.getFormatter()) +
                     TreasureHuntFileTools.DOT + nameAndExtention[1];
             if (etatFileTreasureHunt.isOk()) {
-                outputFilePath = this.outboundFile + newNameFile;
+                outputFilePath = this.outboundPath + newNameFile;
             } else {
-                outputFilePath = this.errorFile + "ERROR" + newNameFile;
+                outputFilePath = this.errorPath + "ERROR_" + newNameFile;
             }
             outputFile = new File(outputFilePath);
             etatFileTreasureHunt.getLines().forEach(line -> {
