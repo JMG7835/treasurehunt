@@ -2,6 +2,7 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHunt;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -10,16 +11,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @SpringBatchTest
@@ -35,42 +40,46 @@ public class PlayTreasureHunterProcessorTest {
     private PlayTreasureHunterProcessor processor;
 
     @Test
-    void processTest_OK() throws URISyntaxException {
-        File fileOk = new File(inboundFile+"treasure_ok.txt");
-        File resultFileOk = new File(getClass().getClassLoader().getResource("playtreasurehunter/result/result_treasure_ok.txt").toURI());
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileOk))) {
-            writer.write("Ligne de test dans le fichier");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    void processTest_OK() throws URISyntaxException, IOException {
+        File fileOk = new File(inboundFile + "treasure_ok.txt");
+        Path path = Paths.get(getClass()
+                .getClassLoader()
+                .getResource("playtreasurehunter/result/result_treasure_ok.txt")
+                .toURI());
+        List<String> resultFileOk;
+        try (Stream<String> lines = Files.lines(path)) {
+            resultFileOk = lines.toList();
         }
         doNothing().when(archiveListener).setLastFile(any());
 
         EtatFileTreasureHunt result = processor.process(fileOk);
 
-        // Assert
-        assertThat(result).isNotNull();
-
-        verify(archiveListener).setLastFile(fileOk);
+        Assertions.assertNotNull(result);
+        assertTrue(result.isOk());
+        assertThat(resultFileOk.size()).isEqualTo(result.getLines().size());
+        assertThat(result.getLines()).containsExactlyElementsOf(resultFileOk);
     }
 
 
     @Test
-    void processTest_KO() throws URISyntaxException {
-        File fileKO = new File(inboundFile+"treasure_ok.txt");
-        File resultFileKO = new File(getClass().getClassLoader().getResource("playtreasurehunter/result/result_treasure_ko.txt").toURI());
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileKO))) {
-            writer.write("Ligne de test dans le fichier");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    void processTest_KO() throws URISyntaxException, IOException {
+        File fileKO = new File(inboundFile + "treasure_ok.txt");
+        Path path = Paths.get(getClass()
+                .getClassLoader()
+                .getResource("playtreasurehunter/result/result_treasure_ko.txt")
+                .toURI());
+        List<String> resultFileko;
+        try (Stream<String> lines = Files.lines(path)) {
+            resultFileko = lines.toList();
         }
         doNothing().when(archiveListener).setLastFile(any());
 
         EtatFileTreasureHunt result = processor.process(fileKO);
 
-        // Assert
-        assertThat(result).isNotNull();
-
-        verify(archiveListener).setLastFile(fileKO); // s'assurer que le listener est informé
+        Assertions.assertNotNull(result);
+        assertFalse(result.isOk());
+        assertThat(resultFileko.size()).isEqualTo(result.getLines().size());
+        assertThat(result.getLines()).containsExactlyElementsOf(resultFileko);
     }
 
 }
