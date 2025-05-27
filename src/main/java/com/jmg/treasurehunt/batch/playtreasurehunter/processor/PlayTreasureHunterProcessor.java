@@ -39,12 +39,12 @@ public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFile
         }
         this.archiveListener.setLastFile(file);
 
-        Stream<String> lines;
+        List<String> lines;
         //controle of file
         try (Stream<String> sLines = Files.lines(file.toPath())) {
-            lines =  sLines.filter(line -> !line.startsWith(TreasureHuntEnum.LINE_COMMENT.getPattern()));
-            List<EtatLineModel> etatLines = lines
-                    .map(TreasureHuntFileServices::controleLine)
+            lines =  sLines.filter(line -> !line.startsWith(TreasureHuntEnum.LINE_COMMENT.getPattern())).toList();
+            List<EtatLineModel> etatLines = lines.stream()
+                    .map(line ->treasureHuntFileServices.controleLine(line))
                     .toList();
             //file KO
             if (!etatLines.stream().allMatch(EtatLineModel::isOk)) {

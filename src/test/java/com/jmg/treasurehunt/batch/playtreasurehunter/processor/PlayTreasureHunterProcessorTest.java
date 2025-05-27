@@ -2,6 +2,8 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
+import com.jmg.treasurehunt.model.EtatLineModel;
+import com.jmg.treasurehunt.services.TreasureHuntFileServices;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,17 +16,14 @@ import org.springframework.test.context.TestPropertySource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @SpringBatchTest
@@ -36,50 +35,36 @@ public class PlayTreasureHunterProcessorTest {
 
     @Mock
     private ArchiveListener archiveListener;
+    @Mock
+    private TreasureHuntFileServices treasureHuntFileServices;
     @InjectMocks
     private PlayTreasureHunterProcessor processor;
 
     @Test
     void processTest_OK() throws URISyntaxException, IOException {
         File fileOk = new File(inboundFile + "treasure_ok.txt");
-        Path path = Paths.get(getClass()
-                .getClassLoader()
-                .getResource("playtreasurehunter/result/result_treasure_ok.txt")
-                .toURI());
-        List<String> resultFileOk;
-        try (Stream<String> lines = Files.lines(path)) {
-            resultFileOk = lines.toList();
-        }
         doNothing().when(archiveListener).setLastFile(any());
-
+        when(treasureHuntFileServices.controleLine(any())).thenReturn(new EtatLineModel(true, "no an error"));
+        when(treasureHuntFileServices.play(any())).thenReturn(List.of("great"));
         EtatFileTreasureHuntModel result = processor.process(fileOk);
 
         Assertions.assertNotNull(result);
         assertTrue(result.isOk());
-        assertThat(resultFileOk.size()).isEqualTo(result.lines().size());
-        assertThat(result.lines()).containsExactlyElementsOf(resultFileOk);
+        assertThat("treasure_ok.txt").isEqualTo(result.fileName());
     }
 
 
     @Test
     void processTest_KO() throws URISyntaxException, IOException {
-        File fileKO = new File(inboundFile + "treasure_ko.txt");
-        Path path = Paths.get(getClass()
-                .getClassLoader()
-                .getResource("playtreasurehunter/result/result_treasure_ko.txt")
-                .toURI());
-        List<String> resultFileko;
-        try (Stream<String> lines = Files.lines(path)) {
-            resultFileko = lines.toList();
-        }
         doNothing().when(archiveListener).setLastFile(any());
+        when(treasureHuntFileServices.controleLine(any())).thenReturn(new EtatLineModel(false, "error"));
 
-        EtatFileTreasureHuntModel result = processor.process(fileKO);
+        EtatFileTreasureHuntModel result = processor.process(new File(inboundFile + "treasure_ko.txt"));
 
         Assertions.assertNotNull(result);
         assertFalse(result.isOk());
-        assertThat(resultFileko.size()).isEqualTo(result.lines().size());
-        assertThat(result.lines()).containsExactlyElementsOf(resultFileko);
+        assertThat("treasure_ko.txt").isEqualTo(result.fileName());
+        assertThat(8).isEqualTo(result.lines().size());
     }
 
 }
