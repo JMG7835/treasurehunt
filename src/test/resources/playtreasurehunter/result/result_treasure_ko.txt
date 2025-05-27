@@ -1,4 +1,4 @@
-type line not found
+Type line F not found
 Line type C: field at index 1 is not a number (value: A)
 Line type M has an incorrect number of fields
 Line type M has an incorrect number of fields

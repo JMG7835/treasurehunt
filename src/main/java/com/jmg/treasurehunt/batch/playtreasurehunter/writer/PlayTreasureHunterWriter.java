@@ -2,7 +2,7 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.tools.DateFormatEnum;
-import com.jmg.treasurehunt.tools.TreasureHuntFileTools;
+import com.jmg.treasurehunt.tools.TreasureHuntEnum;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+
+import static com.jmg.treasurehunt.utils.MyFilesUtils.UNDERSCORE;
+import static com.jmg.treasurehunt.utils.MyFilesUtils.DOT;
 
 /**
  * Writer of batch PlayTreasureHunterRunner
@@ -48,9 +51,9 @@ public class PlayTreasureHunterWriter implements ItemWriter<EtatFileTreasureHunt
             String oldName = etatFileTreasureHunt.fileName();
             String[] nameAndExtention = oldName.split("\\.");
             String newNameFile = nameAndExtention[0] +
-                    TreasureHuntFileTools.UNDERSCORE +
+                    UNDERSCORE +
                     LocalDateTime.now().format(DateFormatEnum.FOR_FILE.getFormatter()) +
-                    TreasureHuntFileTools.DOT + nameAndExtention[1];
+                    DOT + nameAndExtention[1];
             if (etatFileTreasureHunt.isOk()) {
                 outputFilePath = this.outboundPath + newNameFile;
             } else {

@@ -1,55 +1,44 @@
-package com.jmg.treasurehunt.tools;
+package com.jmg.treasurehunt.services;
 
 import com.jmg.treasurehunt.model.EtatLineModel;
+import com.jmg.treasurehunt.tools.TreasureHuntEnum;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-/**
- * Tools for TreasureHuntFile
- *
- * @Autor: GADEAUD Jean-Michel
- */
+import static com.jmg.treasurehunt.tools.TreasureHuntEnum.LINE_C;
+import static com.jmg.treasurehunt.tools.TreasureHuntEnum.LINE_M;
+import static com.jmg.treasurehunt.tools.TreasureHuntEnum.LINE_T;
+import static com.jmg.treasurehunt.tools.TreasureHuntEnum.LINE_A;
+import static com.jmg.treasurehunt.utils.MyFilesUtils.HYPHEN;
 
-public class TreasureHuntFileTools {
-    public static final String UNDERSCORE = "_";
-    public static final String HYPHEN = "-";
-    public static final String DOT = ".";
-    public static final String LINE_C = "C";
-    public static final String LINE_M = "M";
-    public static final String LINE_T = "T";
-    public static final String LINE_A = "A";
-    public static final String LINE_COMMENT = "#";
-    public static final String NORD = "N";
-    public static final String SOUTH = "S";
-    public static final String WEST = "W";
-    public static final String EAST = "E";
-    public static final List<String> COMPASS_ROSE = List.of(NORD, SOUTH, WEST, EAST);
-    public static final String FRONT = "A";
-    public static final String LEFT = "G";
-    public static final String RIGHT = "D";
-    public static final List<String> DIRECTION = List.of(FRONT, LEFT, RIGHT);
+@Service
+public class TreasureHuntFileServices {
 
 
     public static EtatLineModel controleLine(final String lineOld) {
         String[] parts = lineOld.replaceAll("\\s+", "").split(HYPHEN);
         String msg = "";
-        switch (parts[0]) {
-            case LINE_C:
-                msg = controleLineC(parts, msg);
-                break;
-            case LINE_M:
-                msg = controleLineM(parts, msg);
-                break;
-            case LINE_T:
-                msg = controleLineT(parts, msg);
-                break;
-            case LINE_A:
-                msg = controleLineA(parts, msg);
-                break;
-            default:
-                return new EtatLineModel(false, "type line not found");
-        }
+            TreasureHuntEnum typeLine = TreasureHuntEnum.fromPattern(parts[0]);
+            switch (typeLine) {
+                case LINE_C:
+                    msg = controleLineC(parts, msg);
+                    break;
+                case LINE_M:
+                    msg = controleLineM(parts, msg);
+                    break;
+                case LINE_T:
+                    msg = controleLineT(parts, msg);
+                    break;
+                case LINE_A:
+                    msg = controleLineA(parts, msg);
+                    break;
+                default:
+                    return new EtatLineModel(false, MessageFormat.format("Type line {0} not found",parts[0]));
+            }
 
         return new EtatLineModel(msg.isEmpty(), msg);
     }
@@ -69,7 +58,7 @@ public class TreasureHuntFileTools {
                     }
                 }
             }
-            if (!COMPASS_ROSE.contains(parts[4])) {
+            if (!TreasureHuntEnum.isCompassRose(parts[4])) {
                 if (msg.isEmpty()) {
                     msg = MessageFormat.format("Line type A: field at index 4 is Invalid cardinal point (value: {0})", parts[4]);
                 } else {
@@ -78,7 +67,7 @@ public class TreasureHuntFileTools {
             }
             String[] direction = parts[5].split("");
             for (String move : direction) {
-                if(!DIRECTION.contains(move)){
+                if(!TreasureHuntEnum.isMoveAutorised(move)){
                     if (msg.isEmpty()) {
                         msg = MessageFormat.format("Line type A: field at index 5 is Invalid move point (value: {0})", move);
                     } else {
@@ -145,5 +134,10 @@ public class TreasureHuntFileTools {
             }
         }
         return msg;
+    }
+
+    public List<String> play(Stream<String> lines) {
+        List<String> returnLine = new ArrayList<>();
+        return returnLine;
     }
 }

@@ -3,7 +3,8 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.model.EtatLineModel;
-import com.jmg.treasurehunt.tools.TreasureHuntFileTools;
+import com.jmg.treasurehunt.services.TreasureHuntFileServices;
+import com.jmg.treasurehunt.tools.TreasureHuntEnum;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,6 +28,9 @@ public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFile
     @Autowired
     private ArchiveListener archiveListener;
 
+    @Autowired
+    private TreasureHuntFileServices treasureHuntFileServices;
+
 
     @Override
     public EtatFileTreasureHuntModel process(File file) {
@@ -39,9 +42,9 @@ public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFile
         Stream<String> lines;
         //controle of file
         try (Stream<String> sLines = Files.lines(file.toPath())) {
-            lines =  sLines.filter(line -> !line.startsWith(TreasureHuntFileTools.LINE_COMMENT));
+            lines =  sLines.filter(line -> !line.startsWith(TreasureHuntEnum.LINE_COMMENT.getPattern()));
             List<EtatLineModel> etatLines = lines
-                    .map(TreasureHuntFileTools::controleLine)
+                    .map(TreasureHuntFileServices::controleLine)
                     .toList();
             //file KO
             if (!etatLines.stream().allMatch(EtatLineModel::isOk)) {
@@ -53,7 +56,7 @@ public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFile
         }
 
         //game
-        List<String> resultLines = (TreasureHuntFileTools::)
+        List<String> resultLines = treasureHuntFileServices.play(lines);
         return new EtatFileTreasureHuntModel(true, file.getName(),
                 resultLines);
     }

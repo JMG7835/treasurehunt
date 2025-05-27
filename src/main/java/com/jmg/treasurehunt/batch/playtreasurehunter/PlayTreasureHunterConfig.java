@@ -43,8 +43,6 @@ public class PlayTreasureHunterConfig {
     private String outboundPatch;
     @Value("${treasure_file.path.error}")
     private String errorPatch;
-    @Value("${treasure_file.path.archive}")
-    private String archivePatch;
     @Value("${treasure_file.regex}")
     private String fileRegex;
 
