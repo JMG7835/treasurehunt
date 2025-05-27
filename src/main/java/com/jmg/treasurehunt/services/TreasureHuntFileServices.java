@@ -140,6 +140,9 @@ public class TreasureHuntFileServices {
     }
 
     public List<String> play(List<String> lines) {
+        lines = lines.stream()
+                .map(String::trim)
+                .toList();
         List<String> result = new ArrayList<>();
         String[][] map = createMap(lines.stream().filter(line -> line.startsWith(TreasureHuntEnum.LINE_C.getPattern())).toList(), result);
         addMountain(map, lines.stream().filter(line -> line.startsWith(TreasureHuntEnum.LINE_M.getPattern())).toList(), result);

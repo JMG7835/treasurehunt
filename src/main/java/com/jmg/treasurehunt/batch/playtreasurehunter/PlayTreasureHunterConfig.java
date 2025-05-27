@@ -61,10 +61,19 @@ public class PlayTreasureHunterConfig {
     }
 
     @Bean
-    public Step processing() {
-        ItemReader<File> reader = new PlayTreasureHunterReader(inboundPatch, fileRegex);
-        ItemProcessor<File, EtatFileTreasureHuntModel> processor = new PlayTreasureHunterProcessor();
-        ItemWriter<EtatFileTreasureHuntModel> writer = new PlayTreasureHunterWriter(outboundPatch, errorPatch);
+    public PlayTreasureHunterReader playTreasureHunterReader() {
+        return new PlayTreasureHunterReader(inboundPatch, fileRegex);
+    }
+
+    @Bean
+    public PlayTreasureHunterWriter playTreasureHunterWriter() {
+        return new PlayTreasureHunterWriter(outboundPatch, errorPatch);
+    }
+
+    @Bean
+    public Step processing(PlayTreasureHunterReader reader,
+                           PlayTreasureHunterProcessor processor,
+                           PlayTreasureHunterWriter writer) {
         return new StepBuilder("processing", jobRepository)
                 .<File, EtatFileTreasureHuntModel>chunk(5, transactionManager)
                 .reader(reader)
