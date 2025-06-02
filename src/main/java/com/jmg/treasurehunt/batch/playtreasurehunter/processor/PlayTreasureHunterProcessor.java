@@ -3,6 +3,8 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.model.EtatLineModel;
+import com.jmg.treasurehunt.services.FileArchiver;
+import com.jmg.treasurehunt.services.FileParser;
 import com.jmg.treasurehunt.services.TreasureHuntFileServices;
 import com.jmg.treasurehunt.tools.TreasureHuntEnum;
 import org.springframework.batch.item.ItemProcessor;
@@ -25,39 +27,22 @@ import java.util.stream.Stream;
 @Component
 public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFileTreasureHuntModel> {
 
-    @Autowired
-    private ArchiveListener archiveListener;
+    private final FileParser parser;
+    private final FileArchiver archiver;
 
     @Autowired
-    private TreasureHuntFileServices treasureHuntFileServices;
-
+    public PlayTreasureHunterProcessor(FileParser parser, FileArchiver archiver) {
+        this.parser = parser;
+        this.archiver = archiver;
+    }
 
     @Override
     public EtatFileTreasureHuntModel process(File file) {
         if (!file.canRead()) {
             throw new RuntimeException(MessageFormat.format("Can't read file: {0}", file.getName()));
         }
-        this.archiveListener.setLastFile(file);
-
-        List<String> lines;
-        //controle of file
-        try (Stream<String> sLines = Files.lines(file.toPath())) {
-            lines =  sLines.filter(line -> !line.startsWith(TreasureHuntEnum.LINE_COMMENT.getPattern())).toList();
-            List<EtatLineModel> etatLines = lines.stream()
-                    .map(line ->treasureHuntFileServices.controleLine(line))
-                    .toList();
-            //file KO
-            if (!etatLines.stream().allMatch(EtatLineModel::isOk)) {
-                return new EtatFileTreasureHuntModel(false, file.getName(),
-                        etatLines.stream().map(EtatLineModel::line).toList());
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        //game
-        List<String> resultLines = treasureHuntFileServices.play(lines);
-        return new EtatFileTreasureHuntModel(true, file.getName(),
-                resultLines);
+        EtatFileTreasureHuntModel result = parser.parse(file);
+        archiver.archive(file);
+        return result;
     }
 }
