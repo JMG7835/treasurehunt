@@ -1,11 +1,9 @@
 package com.jmg.treasurehunt.services;
 
-import com.jmg.treasurehunt.model.EtatLineModel;
 import com.jmg.treasurehunt.model.Hunter;
 import com.jmg.treasurehunt.tools.TreasureHuntEnum;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,30 +25,6 @@ public class TreasureHuntFileServices {
     public static final String TREASURE = "T";
     public static final String CARD = "C";
     public static final String HUNTER = "H";
-
-    public EtatLineModel controleLine(final String lineOld) {
-        String[] parts = lineOld.replaceAll(REGEX_SPACE, VOID).split(HYPHEN);
-        String msg = "";
-        TreasureHuntEnum typeLine = TreasureHuntEnum.fromPattern(parts[0]);
-        switch (typeLine) {
-            case LINE_C -> msg = controleLineC(parts, msg);
-            case LINE_M -> msg = controleLineM(parts, msg);
-            case LINE_T -> msg = controleLineT(parts, msg);
-            case LINE_A -> msg = controleLineA(parts, msg);
-            default -> {
-                return new EtatLineModel(false, MessageFormat.format("Type line {0} not found", parts[0]));
-            }
-        }
-
-        return new EtatLineModel(msg.isEmpty(), msg);
-    }
-
-    private static String controleLineA(String[] parts, String msg) {
-
-    }
-
-
-
 
     public List<String> play(List<String> lines) {
         lines = lines.stream()
@@ -100,7 +74,7 @@ public class TreasureHuntFileServices {
 
     //Generate the treasure and increment if is already set in map if is in map
     private void addTreasure(final String[][] map, final List<String> lineT) {
-        final int maxX =  map[0].length;
+        final int maxX = map[0].length;
         final int maxY = map.length;
         for (String line : lineT) {
             String[] parts = line.replaceAll(REGEX_SPACE, VOID).split(HYPHEN);
@@ -152,7 +126,7 @@ public class TreasureHuntFileServices {
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
                 String position = map[y][x];
-                if (position!= null && position.startsWith(TREASURE)) {
+                if (position != null && position.startsWith(TREASURE)) {
                     result.add(TREASURE + HYPHEN + x + HYPHEN + y + HYPHEN + position.charAt(2));
                 }
             }
@@ -203,11 +177,11 @@ public class TreasureHuntFileServices {
             String oldMapCase = map[oldY][oldX];
             if (oldMapCase == null || oldMapCase.isEmpty()) {
                 map[hunter.getY()][hunter.getX()] = "";
-            }else{
+            } else {
                 map[hunter.getY()][hunter.getX()] = oldMapCase.substring(1);
             }
 
-            if (mapCase!=null && mapCase.startsWith(TREASURE)) {
+            if (mapCase != null && mapCase.startsWith(TREASURE)) {
                 treasureManager(hunter, mapCase, x, map[y]);
             } else {
                 map[y][x] = HUNTER;
@@ -223,7 +197,7 @@ public class TreasureHuntFileServices {
             value--;
             hunter.setTreasure(hunter.getTreasure() + 1);
         }
-        map[x] = HUNTER + (value> 0 ?  TREASURE + "(" + value + ")" : "");
+        map[x] = HUNTER + (value > 0 ? TREASURE + "(" + value + ")" : "");
     }
 
 }
