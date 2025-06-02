@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jmg.treasurehunt.utils.MyFilesUtils.VOID;
+import static com.jmg.treasurehunt.utils.FilesUtils.VOID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -2,7 +2,6 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.tools.DateFormatEnum;
-import com.jmg.treasurehunt.tools.TreasureHuntEnum;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static com.jmg.treasurehunt.utils.MyFilesUtils.UNDERSCORE;
-import static com.jmg.treasurehunt.utils.MyFilesUtils.DOT;
+import static com.jmg.treasurehunt.utils.FilesUtils.UNDERSCORE;
+import static com.jmg.treasurehunt.utils.FilesUtils.DOT;
 
 /**
  * Writer of batch PlayTreasureHunterRunner

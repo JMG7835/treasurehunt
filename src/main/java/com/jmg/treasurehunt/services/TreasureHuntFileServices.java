@@ -9,9 +9,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static com.jmg.treasurehunt.utils.MyFilesUtils.*;
+import static com.jmg.treasurehunt.utils.FilesUtils.*;
 
 /**
  * Service for PlayTreasureHunter
@@ -295,7 +294,7 @@ public class TreasureHuntFileServices {
             }
 
             if (mapCase!=null && mapCase.startsWith(TREASURE)) {
-                treasurGestion(hunter, mapCase, x, map[y]);
+                treasureManager(hunter, mapCase, x, map[y]);
             } else {
                 map[y][x] = HUNTER;
             }
@@ -304,7 +303,7 @@ public class TreasureHuntFileServices {
         }
     }
 
-    private static void treasurGestion(Hunter hunter, String mapCase, int x, String[] map) {
+    private static void treasureManager(Hunter hunter, String mapCase, int x, String[] map) {
         int value = Integer.parseInt(mapCase.substring(2, 3));
         if (value > 0) {
             value--;

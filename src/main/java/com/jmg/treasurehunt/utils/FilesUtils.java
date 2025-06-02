@@ -4,7 +4,7 @@ package com.jmg.treasurehunt.utils;
  *
  * @Autor: GADEAUD Jean-Michel
  */
-public class MyFilesUtils {
+public class FilesUtils {
     public static final String UNDERSCORE = "_";
     public static final String HYPHEN = "-";
     public static final String DOT = ".";
