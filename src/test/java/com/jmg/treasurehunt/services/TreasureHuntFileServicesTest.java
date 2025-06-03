@@ -1,7 +1,6 @@
 package com.jmg.treasurehunt.services;
 
 
-import com.jmg.treasurehunt.model.EtatLineModel;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.batch.test.context.SpringBatchTest;

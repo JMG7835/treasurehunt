@@ -1,16 +1,17 @@
-package com.jmg.treasurehunt.services.impl;
+package com.jmg.treasurehunt.services.treasurehuntvalidator.impl;
 
-import com.jmg.treasurehunt.model.EtatLineModel;
-import com.jmg.treasurehunt.services.LineValidator;
+import com.jmg.treasurehunt.services.treasurehuntvalidator.LineValidator;
 import com.jmg.treasurehunt.tools.TreasureHuntEnum;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 
+@Component
 public class LineValidatorTypeA implements LineValidator {
     @Override
-    public EtatLineModel validate(String[] parts) {
+    public String validate(String[] parts) {
         if (parts.length != 6) {
-            return new EtatLineModel(false, "Line type A has incorrect length");
+            return "Line type A has incorrect length";
         }
 
         String msg = "";
@@ -42,7 +43,7 @@ public class LineValidatorTypeA implements LineValidator {
                 }
             }
         }
-        return new EtatLineModel(msg.isBlank(), msg);
+        return msg;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.services;
+package com.jmg.treasurehunt.services.treasurehuntvalidator;
 
 import java.io.File;
 

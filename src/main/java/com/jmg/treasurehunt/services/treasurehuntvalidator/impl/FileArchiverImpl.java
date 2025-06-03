@@ -1,7 +1,8 @@
-package com.jmg.treasurehunt.services.impl;
+package com.jmg.treasurehunt.services.treasurehuntvalidator.impl;
 
-import com.jmg.treasurehunt.services.FileArchiver;
+import com.jmg.treasurehunt.services.treasurehuntvalidator.FileArchiver;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Component
 public class FileArchiverImpl implements FileArchiver {
 
     @Value("${treasure_file.path.archive}")
