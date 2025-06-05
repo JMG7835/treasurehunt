@@ -2,7 +2,6 @@ package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
-import com.jmg.treasurehunt.services.TreasureHuntFileServices;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

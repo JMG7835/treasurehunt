@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.services.treasurehuntaction.impl;
 
-import com.jmg.treasurehunt.services.treasurehuntaction.Map;
+import com.jmg.treasurehunt.services.treasurehuntaction.HuntMap;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import static com.jmg.treasurehunt.utils.FilesUtils.*;
 import static com.jmg.treasurehunt.utils.FilesUtils.HYPHEN;
 
 @Component
-public class MapImpl implements Map {
+public class HuntMapImpl implements HuntMap {
 
     private static final String MAP = "C";
 

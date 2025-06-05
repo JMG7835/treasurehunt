@@ -1,7 +1,9 @@
 package com.jmg.treasurehunt.services.treasurehuntaction;
 
+import com.jmg.treasurehunt.model.Hunter;
+
 import java.util.List;
 
 public interface HunterServices {
-    void createHunter(final String[][] map, final List<String> lineA, List<String> result);
+    List<Hunter> createHunter(final String[][] map, final List<String> lineA);
 }

@@ -15,25 +15,23 @@ import static com.jmg.treasurehunt.utils.FilesUtils.VOID;
 @Component
 public class HunterServicesImpl implements HunterServices {
 
-    private static String HUNTER = "H";
-    @Autowired
-    public void createHunter(final String[][] map, final List<String> lineA, List<String> result){
+    @Override
+    public List<Hunter> createHunter(final String[][] map, final List<String> lineA){
         final int maxX = map[0].length;
         final int maxY = map.length;
-        int maxMove = 0;
         List<Hunter> hunters = new ArrayList<>();
         for (String line : lineA) {
             String[] parts = line.replaceAll(REGEX_SPACE, VOID).split(HYPHEN);
             int x = Integer.parseInt(parts[2]);
             int y = Integer.parseInt(parts[3]);
             String[] move = parts[5].split(VOID);
-            maxMove = Math.max(maxMove, move.length);
             if (maxX >= x && maxY >= y) {
                 map[y][x] = HUNTER;
                 hunters.add(new Hunter(parts[1], 0, parts[4], move, x, y));
             }
         }
         hunters.sort(Comparator.comparing(Hunter::getName));
+        return hunters;
     }
 
 

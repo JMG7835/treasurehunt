@@ -10,7 +10,6 @@ import static com.jmg.treasurehunt.utils.FilesUtils.*;
 @Component
 public class TreasureImpl implements Treasure {
 
-    private static final String TREASURE = "T";
 
     @Override
     public void addTreasure(final String[][] map, final List<String> lineT) {
