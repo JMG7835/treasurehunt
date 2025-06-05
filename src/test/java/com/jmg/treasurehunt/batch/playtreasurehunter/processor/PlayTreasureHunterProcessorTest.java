@@ -1,14 +1,15 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.processor;
 
-import com.jmg.treasurehunt.batch.listener.ArchiveListener;
 import com.jmg.treasurehunt.model.EtatFileTreasureHuntModel;
+import com.jmg.treasurehunt.services.treasurehuntaction.TreasureGame;
+import com.jmg.treasurehunt.services.treasurehuntvalidator.FileArchiver;
+import com.jmg.treasurehunt.services.treasurehuntvalidator.FileParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.batch.test.context.SpringBatchTest;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.File;
@@ -20,49 +21,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@SpringBatchTest
-@TestPropertySource(locations = "classpath:application-test.properties")
+@ExtendWith(MockitoExtension.class)
 public class PlayTreasureHunterProcessorTest {
 
-    @Value("${treasure_file.path.inbound}")
-    private String inboundFile;
+    private static final String FILE_KO = "treasure_ko.txt";
+    public static final String FILE_OK = "treasure_ok.txt";
+    private static final String INBOUND = "src/test/resources/playtreasurehunter/inbound/";
 
     @Mock
-    private ArchiveListener archiveListener;
+    private FileParser parser;
     @Mock
-    private TreasureHuntFileServices treasureHuntFileServices;
+    private FileArchiver archiver;
+    @Mock
+    private TreasureGame game;
     @InjectMocks
     private PlayTreasureHunterProcessor processor;
 
+
     @Test
     void processTest_OK() throws URISyntaxException, IOException {
-        File fileOk = new File(inboundFile + "treasure_ok.txt");
-        doNothing().when(archiveListener).setLastFile(any());
-        when(treasureHuntFileServices.controleLine(any())).thenReturn(new EtatLineModel(true, "no an error"));
-        when(treasureHuntFileServices.play(any())).thenReturn(List.of("great"));
-        EtatFileTreasureHuntModel result = processor.process(fileOk);
+        doNothing().when(archiver).archive(any());
+        when(parser.parse(anyList(), any())).thenReturn(new EtatFileTreasureHuntModel(true, FILE_OK, List.of("no an error")));
+        when(game.play(anyList())).thenReturn(List.of("great"));
+        EtatFileTreasureHuntModel result = processor.process(new File(INBOUND + FILE_OK));
 
         Assertions.assertNotNull(result);
         assertTrue(result.isOk());
-        assertThat("treasure_ok.txt").isEqualTo(result.fileName());
+        assertThat(FILE_OK).isEqualTo(result.fileName());
     }
 
 
     @Test
     void processTest_KO() throws URISyntaxException, IOException {
-        doNothing().when(archiveListener).setLastFile(any());
-        when(treasureHuntFileServices.controleLine(any())).thenReturn(new EtatLineModel(false, "error"));
+        doNothing().when(archiver).archive(any());
+        when(parser.parse(anyList(), any())).thenReturn(new EtatFileTreasureHuntModel(false, FILE_KO, List.of("error")));
 
-        EtatFileTreasureHuntModel result = processor.process(new File(inboundFile + "treasure_ko.txt"));
+        EtatFileTreasureHuntModel result = processor.process(new File(INBOUND + FILE_KO));
 
         Assertions.assertNotNull(result);
         assertFalse(result.isOk());
-        assertThat("treasure_ko.txt").isEqualTo(result.fileName());
-        assertThat(8).isEqualTo(result.lines().size());
+        assertThat(FILE_KO).isEqualTo(result.fileName());
+        assertThat(1).isEqualTo(result.lines().size());
     }
 
 }

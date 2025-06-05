@@ -1,34 +1,28 @@
 package com.jmg.treasurehunt.batch.playtreasurehunter.reader;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.batch.test.context.SpringBatchTest;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@SpringBatchTest
-@TestPropertySource(locations = "classpath:application-test.properties")
+@ExtendWith(MockitoExtension.class)
 public class PlayTreasureHunterReaderTest {
-    @Value("${treasure_file.path.inbound}")
-    private String inboundFile;
 
-    @Value("${treasure_file.regex}")
-    private String regexFile;
+    private static final String INBOUND = "src/test/resources/playtreasurehunter/inbound/";
+    private static final String REGEXFILE = "^treasure.*\\.txt$";
 
 
     @Test
     void readFileTest_OK() {
-        PlayTreasureHunterReader myReader = new PlayTreasureHunterReader(inboundFile, regexFile);
+        PlayTreasureHunterReader myReader = new PlayTreasureHunterReader(INBOUND, REGEXFILE);
 
         File file;
         int count = 0;
         while ((file = myReader.read()) != null) {
-            assertThat(file.getName()).matches(regexFile);
+            assertThat(file.getName()).matches(REGEXFILE);
             count++;
         }
 
