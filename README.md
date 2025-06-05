@@ -1,0 +1,1 @@
+projet en spring boot et spring batch qui integre des fichiers treasure*.txt qui se trouve dans C:/app/treasure-map/inbound/ les archives et retourne la réponse dans C:/app/treasure-map/outbound/ ou C:/app/treasure-map/error/
