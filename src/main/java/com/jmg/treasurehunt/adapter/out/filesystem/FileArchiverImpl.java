@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.application.services.treasurehuntvalidator;
+package com.jmg.treasurehunt.adapter.out.filesystem;
 
 import com.jmg.treasurehunt.domain.port.in.validator.FileArchiver;
 import org.springframework.beans.factory.annotation.Value;
