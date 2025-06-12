@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.adapter.batch.playtreasurehunter.processor;
+package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.domain.port.in.action.TreasureGame;

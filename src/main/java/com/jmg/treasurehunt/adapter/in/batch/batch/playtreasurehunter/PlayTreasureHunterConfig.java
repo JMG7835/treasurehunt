@@ -1,9 +1,9 @@
-package com.jmg.treasurehunt.adapter.batch.playtreasurehunter;
+package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter;
 
-import com.jmg.treasurehunt.adapter.batch.listener.ArchiveListener;
-import com.jmg.treasurehunt.adapter.batch.playtreasurehunter.processor.PlayTreasureHunterProcessor;
-import com.jmg.treasurehunt.adapter.batch.playtreasurehunter.reader.PlayTreasureHunterReader;
-import com.jmg.treasurehunt.adapter.batch.playtreasurehunter.writer.PlayTreasureHunterWriter;
+import com.jmg.treasurehunt.adapter.in.batch.batch.listener.ArchiveListener;
+import com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.processor.PlayTreasureHunterProcessor;
+import com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.reader.PlayTreasureHunterReader;
+import com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.writer.PlayTreasureHunterWriter;
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

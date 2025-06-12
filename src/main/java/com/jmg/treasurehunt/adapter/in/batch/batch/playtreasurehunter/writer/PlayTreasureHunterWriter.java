@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.adapter.batch.playtreasurehunter.writer;
+package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
 import com.jmg.treasurehunt.application.tools.tools.DateFormatEnum;

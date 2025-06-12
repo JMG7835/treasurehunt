@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.adapter.playtreasurehunter.reader;
 
-import com.jmg.treasurehunt.adapter.batch.playtreasurehunter.reader.PlayTreasureHunterReader;
+import com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.reader.PlayTreasureHunterReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

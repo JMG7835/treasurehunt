@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.adapter.batch.listener;
+package com.jmg.treasurehunt.adapter.in.batch.batch.listener;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

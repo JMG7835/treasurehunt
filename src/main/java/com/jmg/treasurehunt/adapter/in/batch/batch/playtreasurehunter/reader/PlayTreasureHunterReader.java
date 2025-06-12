@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.adapter.batch.playtreasurehunter.reader;
+package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.reader;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.adapter.batch.scheduler;
+package com.jmg.treasurehunt.adapter.in.batch.batch.scheduler;
 
 import com.jmg.treasurehunt.application.tools.tools.DateFormatEnum;
 import lombok.extern.slf4j.Slf4j;
