@@ -1,7 +1,6 @@
 package com.jmg.treasurehunt.application.services.treasurehuntvalidator;
 
 import com.jmg.treasurehunt.domain.port.in.validator.LineValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import static com.jmg.treasurehunt.application.utils.FilesUtils.VOID;
 @Component
 public class LineValidationDispatcher {
 
-    @Autowired
-    private List<LineValidator> validators;
+    private final List<LineValidator> validators;
+
+    public LineValidationDispatcher(List<LineValidator> validators) {
+        this.validators = validators;
+    }
 
 
     public String validate(String line) {

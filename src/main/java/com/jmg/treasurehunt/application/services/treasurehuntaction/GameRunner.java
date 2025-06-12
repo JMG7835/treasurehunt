@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
-import com.jmg.treasurehunt.application.tools.tools.TreasureHuntEnum;
+import com.jmg.treasurehunt.application.tools.TreasureHuntEnum;
 import com.jmg.treasurehunt.domain.model.GameState;
 import com.jmg.treasurehunt.domain.model.Hunter;
 import org.springframework.stereotype.Component;

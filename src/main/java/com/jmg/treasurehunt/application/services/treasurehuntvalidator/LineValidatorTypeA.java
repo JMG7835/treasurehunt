@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.application.services.treasurehuntvalidator;
 
-import com.jmg.treasurehunt.application.tools.tools.TreasureHuntEnum;
+import com.jmg.treasurehunt.application.tools.TreasureHuntEnum;
 import com.jmg.treasurehunt.domain.port.in.validator.LineValidator;
 import org.springframework.stereotype.Component;
 

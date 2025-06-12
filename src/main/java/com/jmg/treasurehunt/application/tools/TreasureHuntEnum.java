@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.application.tools.tools;
+package com.jmg.treasurehunt.application.tools;
 
 import java.util.List;
 
