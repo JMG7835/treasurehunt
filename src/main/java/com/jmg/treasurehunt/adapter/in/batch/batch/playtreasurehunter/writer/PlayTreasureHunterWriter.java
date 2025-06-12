@@ -13,8 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.UNDERSCORE;
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.DOT;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.UNDERSCORE;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.DOT;
 
 /**
  * Writer of batch PlayTreasureHunterRunner

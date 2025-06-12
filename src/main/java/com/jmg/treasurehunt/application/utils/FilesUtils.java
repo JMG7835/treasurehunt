@@ -1,4 +1,4 @@
-package com.jmg.treasurehunt.application.services.utils;
+package com.jmg.treasurehunt.application.utils;
 /**
  * Constant utilis for file
  *
@@ -12,4 +12,6 @@ public class FilesUtils {
     public static final String VOID = "";
     public static final String HUNTER = "H";
     public static final String TREASURE = "T";
+    public static final String MAP = "C";
+    public static final String MONT = "M";
 }

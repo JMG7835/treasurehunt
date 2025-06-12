@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.HYPHEN;
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.REGEX_SPACE;
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.VOID;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.HYPHEN;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.REGEX_SPACE;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.VOID;
 
 @Component
 public class LineValidationDispatcher {

@@ -4,8 +4,8 @@ import com.jmg.treasurehunt.application.tools.tools.TreasureHuntEnum;
 import com.jmg.treasurehunt.domain.model.Hunter;
 import org.springframework.stereotype.Component;
 
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.HUNTER;
-import static com.jmg.treasurehunt.application.services.utils.FilesUtils.TREASURE;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.HUNTER;
+import static com.jmg.treasurehunt.application.utils.FilesUtils.TREASURE;
 
 @Component
 public class MoveFront {
