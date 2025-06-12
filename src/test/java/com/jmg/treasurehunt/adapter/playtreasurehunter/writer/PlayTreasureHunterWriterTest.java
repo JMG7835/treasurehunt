@@ -2,6 +2,7 @@ package com.jmg.treasurehunt.adapter.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.writer.PlayTreasureHunterWriter;
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,7 @@ public class PlayTreasureHunterWriterTest {
 
 
     @BeforeEach
+    @AfterEach
     void deleteRepo() {
         File[] filesList = new File(OUTBOUND).listFiles();
         if (filesList != null) {
