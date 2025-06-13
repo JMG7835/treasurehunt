@@ -4,6 +4,6 @@ import com.jmg.treasurehunt.domain.model.Hunter;
 
 import java.util.List;
 
-public interface HunterServices {
+public interface HunterServicesUseCase {
     List<Hunter> createHunter(final String[][] map, final List<String> lineA);
 }

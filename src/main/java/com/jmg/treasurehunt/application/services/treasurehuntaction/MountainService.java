@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
-import com.jmg.treasurehunt.domain.port.in.action.Mountain;
+import com.jmg.treasurehunt.domain.port.in.action.MountainUseCase;
 import com.jmg.treasurehunt.domain.port.in.parser.MountainParser;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import static com.jmg.treasurehunt.application.utils.FilesUtils.HYPHEN;
 import static com.jmg.treasurehunt.application.utils.FilesUtils.MONT;
 
 @Component
-public class MountainImpl implements Mountain {
+public class MountainService implements MountainUseCase {
 
     private final MountainParser mountainParser;
 
-    public MountainImpl(MountainParser mountainParser) {
+    public MountainService(MountainParser mountainParser) {
         this.mountainParser = mountainParser;
     }
 

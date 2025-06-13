@@ -2,10 +2,10 @@ package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
 import com.jmg.treasurehunt.domain.model.GameState;
 import com.jmg.treasurehunt.domain.model.Hunter;
-import com.jmg.treasurehunt.domain.port.in.action.HuntMap;
-import com.jmg.treasurehunt.domain.port.in.action.HunterServices;
-import com.jmg.treasurehunt.domain.port.in.action.Mountain;
-import com.jmg.treasurehunt.domain.port.in.action.TreasureService;
+import com.jmg.treasurehunt.domain.port.in.action.HuntMapUseCase;
+import com.jmg.treasurehunt.domain.port.in.action.HunterServicesUseCase;
+import com.jmg.treasurehunt.domain.port.in.action.MountainUseCase;
+import com.jmg.treasurehunt.domain.port.in.action.TreasureUseCase;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import java.util.List;
 
 @Component
 public class GameInitializer {
-    private final HuntMap huntMap;
-    private final Mountain mountain;
-    private final TreasureService treasure;
-    private final HunterServices hunterServices;
+    private final HuntMapUseCase huntMap;
+    private final MountainUseCase mountain;
+    private final TreasureUseCase treasure;
+    private final HunterServicesUseCase hunterServices;
 
-    public GameInitializer(HuntMap huntMap, Mountain mountain, TreasureService treasure, HunterServices hunterServices) {
+    public GameInitializer(HuntMapUseCase huntMap, MountainUseCase mountain, TreasureUseCase treasure, HunterServicesUseCase hunterServices) {
         this.huntMap = huntMap;
         this.mountain = mountain;
         this.treasure = treasure;

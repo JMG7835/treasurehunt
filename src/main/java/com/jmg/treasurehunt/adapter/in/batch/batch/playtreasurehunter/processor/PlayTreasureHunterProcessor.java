@@ -1,7 +1,7 @@
 package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.processor;
 
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
-import com.jmg.treasurehunt.domain.port.in.action.TreasureGame;
+import com.jmg.treasurehunt.domain.port.in.action.TreasureGameUseCase;
 import com.jmg.treasurehunt.domain.port.in.validator.FileArchiver;
 import com.jmg.treasurehunt.domain.port.in.validator.FileParser;
 import org.springframework.batch.item.ItemProcessor;
@@ -29,7 +29,7 @@ public class PlayTreasureHunterProcessor implements ItemProcessor<File, EtatFile
     @Autowired
     private FileArchiver archiver;
     @Autowired
-    private TreasureGame game;
+    private TreasureGameUseCase game;
 
 
     @Override

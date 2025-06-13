@@ -1,7 +1,7 @@
 package com.jmg.treasurehunt.adapter.in.batch.batch.playtreasurehunter.writer;
 
 import com.jmg.treasurehunt.domain.model.EtatFileTreasureHuntModel;
-import com.jmg.treasurehunt.application.tools.tools.DateFormatEnum;
+import com.jmg.treasurehunt.application.tools.DateFormatEnum;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;

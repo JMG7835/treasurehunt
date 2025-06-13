@@ -1,7 +1,7 @@
 package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
 import com.jmg.treasurehunt.domain.model.Treasure;
-import com.jmg.treasurehunt.domain.port.in.action.TreasureService;
+import com.jmg.treasurehunt.domain.port.in.action.TreasureUseCase;
 import com.jmg.treasurehunt.infrastructure.parser.TreasureParser;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +10,10 @@ import java.util.List;
 import static com.jmg.treasurehunt.application.utils.FilesUtils.TREASURE;
 
 @Component
-public class TreasureServiceImpl implements TreasureService {
+public class TreasureService implements TreasureUseCase {
     private final TreasureParser treasureParser;
 
-    public TreasureServiceImpl(TreasureParser treasureParser) {
+    public TreasureService(TreasureParser treasureParser) {
         this.treasureParser = treasureParser;
     }
 

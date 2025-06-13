@@ -1,6 +1,6 @@
 package com.jmg.treasurehunt.adapter.in.batch.batch.scheduler;
 
-import com.jmg.treasurehunt.application.tools.tools.DateFormatEnum;
+import com.jmg.treasurehunt.application.tools.DateFormatEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;

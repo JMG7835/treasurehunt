@@ -1,23 +1,20 @@
 package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
-import com.jmg.treasurehunt.domain.port.in.action.HuntMap;
+import com.jmg.treasurehunt.domain.port.in.action.HuntMapUseCase;
 import com.jmg.treasurehunt.domain.port.in.parser.HuntMapParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.jmg.treasurehunt.application.utils.FilesUtils.HYPHEN;
 import static com.jmg.treasurehunt.application.utils.FilesUtils.MAP;
-import static com.jmg.treasurehunt.application.utils.FilesUtils.REGEX_SPACE;
-import static com.jmg.treasurehunt.application.utils.FilesUtils.VOID;
 
 @Component
-public class HuntMapImpl implements HuntMap {
+public class HuntMapService implements HuntMapUseCase {
 
     private final HuntMapParser huntMapParser;
 
-    public HuntMapImpl(HuntMapParser huntMapParser) {
+    public HuntMapService(HuntMapParser huntMapParser) {
         this.huntMapParser = huntMapParser;
     }
 

@@ -1,19 +1,19 @@
 package com.jmg.treasurehunt.application.services.treasurehuntaction;
 
 import com.jmg.treasurehunt.domain.model.GameState;
-import com.jmg.treasurehunt.domain.port.in.action.TreasureGame;
+import com.jmg.treasurehunt.domain.port.in.action.TreasureGameUseCase;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class TreasureGameImpl implements TreasureGame {
+public class TreasureGameService implements TreasureGameUseCase {
 
     private final GameInitializer initializer;
     private final GameRunner runner;
     private final GameResultFormatter formatter;
 
-    public TreasureGameImpl(GameInitializer initializer, GameRunner runner, GameResultFormatter formatter) {
+    public TreasureGameService(GameInitializer initializer, GameRunner runner, GameResultFormatter formatter) {
         this.initializer = initializer;
         this.runner = runner;
         this.formatter = formatter;
